@@ -115,10 +115,16 @@ const StudentDashboard = () => {
                 Welcome back, {profile?.full_name}!
               </p>
             </div>
-            <Button onClick={signOut} variant="outline" className="gap-2">
-              <LogOut className="w-4 h-4" />
-              Sign Out
-            </Button>
+            <div className="flex gap-2">
+              <Button onClick={() => navigate('/performance')} variant="outline" className="gap-2">
+                <Trophy className="w-4 h-4" />
+                My Performance
+              </Button>
+              <Button onClick={signOut} variant="outline" className="gap-2">
+                <LogOut className="w-4 h-4" />
+                Sign Out
+              </Button>
+            </div>
           </div>
         </div>
       </header>
