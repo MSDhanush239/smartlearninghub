@@ -22,6 +22,8 @@ const FacultyDashboard = () => {
   const [classrooms, setClassrooms] = useState<Classroom[]>([]);
   const [showCreateDialog, setShowCreateDialog] = useState(false);
   const [loadingData, setLoadingData] = useState(true);
+  const [totalStudents, setTotalStudents] = useState(0);
+  const [totalQuizzes, setTotalQuizzes] = useState(0);
 
   useEffect(() => {
     if (!loading && (!profile || profile.role !== 'faculty')) {
@@ -44,6 +46,23 @@ const FacultyDashboard = () => {
 
     if (!error && data) {
       setClassrooms(data);
+      
+      // Fetch total students across all classrooms
+      if (data.length > 0) {
+        const classroomIds = data.map(c => c.id);
+        const { count } = await supabase
+          .from('classroom_members')
+          .select('*', { count: 'exact', head: true })
+          .in('classroom_id', classroomIds);
+        setTotalStudents(count || 0);
+
+        // Fetch total quizzes
+        const { count: quizCount } = await supabase
+          .from('quizzes')
+          .select('*', { count: 'exact', head: true })
+          .eq('faculty_id', profile?.id);
+        setTotalQuizzes(quizCount || 0);
+      }
     }
     setLoadingData(false);
   };
@@ -104,7 +123,7 @@ const FacultyDashboard = () => {
           <Card className="shadow-card border-l-4 border-l-secondary">
             <CardHeader className="pb-3">
               <CardTitle className="text-sm font-medium text-muted-foreground">
-                Active Students
+                Total Students
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -112,7 +131,7 @@ const FacultyDashboard = () => {
                 <div className="p-2 bg-secondary/10 rounded-lg">
                   <Users className="w-6 h-6 text-secondary" />
                 </div>
-                <p className="text-3xl font-bold">--</p>
+                <p className="text-3xl font-bold">{totalStudents}</p>
               </div>
             </CardContent>
           </Card>
@@ -128,7 +147,7 @@ const FacultyDashboard = () => {
                 <div className="p-2 bg-accent/10 rounded-lg">
                   <Trophy className="w-6 h-6 text-accent" />
                 </div>
-                <p className="text-3xl font-bold">--</p>
+                <p className="text-3xl font-bold">{totalQuizzes}</p>
               </div>
             </CardContent>
           </Card>

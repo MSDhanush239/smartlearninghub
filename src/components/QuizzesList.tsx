@@ -42,7 +42,10 @@ const QuizzesList = ({ classroomId, isFaculty, refreshKey }: any) => {
             </p>
           </CardHeader>
           <CardContent>
-            <Button onClick={() => navigate(`/quiz/${quiz.id}`)} className="bg-gradient-primary">
+            <Button 
+              onClick={() => navigate(isFaculty ? `/quiz-results/${quiz.id}` : `/quiz/${quiz.id}`)} 
+              className="bg-gradient-primary"
+            >
               {isFaculty ? 'View Results' : 'Take Quiz'}
             </Button>
           </CardContent>
