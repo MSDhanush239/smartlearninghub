@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 interface Question {
   question: string;
   options: string[];
-  correct_answer: string;
+  correct: string;
 }
 
 const QuizTake = () => {
@@ -88,7 +88,7 @@ const QuizTake = () => {
 
     let score = 0;
     selectedQuestions.forEach((q, idx) => {
-      if (answers[idx] === q.correct_answer) {
+      if (answers[idx] === q.correct) {
         score++;
       }
     });
@@ -158,7 +158,7 @@ const QuizTake = () => {
               </CardHeader>
               <CardContent>
                 <RadioGroup
-                  value={answers[idx]}
+                  value={answers[idx] || ''}
                   onValueChange={(value) => setAnswers({ ...answers, [idx]: value })}
                 >
                   {q.options.map((option, optIdx) => (
