@@ -87,9 +87,10 @@ const QuizTake = () => {
     setSubmitting(true);
 
     let score = 0;
+    const normalize = (s: string) => (s ?? '').toString().toLowerCase().replace(/\s+/g, ' ').trim();
     selectedQuestions.forEach((q, idx) => {
-      const userAnswer = (answers[idx] || '').trim().toLowerCase();
-      const correctAnswer = (q.answer || '').trim().toLowerCase();
+      const userAnswer = normalize(answers[idx] || '');
+      const correctAnswer = normalize(q.answer || '');
       if (userAnswer === correctAnswer) {
         score++;
       }
