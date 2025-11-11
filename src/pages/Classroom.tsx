@@ -9,6 +9,7 @@ import { ArrowLeft, Plus } from 'lucide-react';
 import AnnouncementsList from '@/components/AnnouncementsList';
 import QuizzesList from '@/components/QuizzesList';
 import LeaderboardView from '@/components/LeaderboardView';
+import ClassPerformanceView from '@/components/ClassPerformanceView';
 import CreateAnnouncementDialog from '@/components/CreateAnnouncementDialog';
 import CreateQuizDialog from '@/components/CreateQuizDialog';
 
@@ -98,10 +99,11 @@ const Classroom = () => {
       {/* Main Content */}
       <main className="container mx-auto px-4 py-8">
         <Tabs defaultValue="announcements" className="w-full">
-          <TabsList className="grid w-full grid-cols-3">
+          <TabsList className={`grid w-full ${isFaculty ? 'grid-cols-4' : 'grid-cols-3'}`}>
             <TabsTrigger value="announcements">Announcements</TabsTrigger>
             <TabsTrigger value="quizzes">Quizzes</TabsTrigger>
             <TabsTrigger value="leaderboard">Leaderboard</TabsTrigger>
+            {isFaculty && <TabsTrigger value="analytics">Analytics</TabsTrigger>}
           </TabsList>
 
           <TabsContent value="announcements" className="mt-6">
@@ -137,6 +139,12 @@ const Classroom = () => {
           <TabsContent value="leaderboard" className="mt-6">
             <LeaderboardView classroomId={id!} />
           </TabsContent>
+
+          {isFaculty && (
+            <TabsContent value="analytics" className="mt-6">
+              <ClassPerformanceView classroomId={id!} />
+            </TabsContent>
+          )}
         </Tabs>
       </main>
 
