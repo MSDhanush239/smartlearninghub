@@ -12,7 +12,7 @@ import { toast } from 'sonner';
 interface Question {
   question: string;
   options: string[];
-  correct_answer: string;
+  answer: string;
 }
 
 const QuizTake = () => {
@@ -89,7 +89,7 @@ const QuizTake = () => {
     let score = 0;
     selectedQuestions.forEach((q, idx) => {
       const userAnswer = (answers[idx] || '').trim().toLowerCase();
-      const correctAnswer = (q.correct_answer || '').trim().toLowerCase();
+      const correctAnswer = (q.answer || '').trim().toLowerCase();
       if (userAnswer === correctAnswer) {
         score++;
       }
